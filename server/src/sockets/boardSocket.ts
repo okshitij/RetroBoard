@@ -1,5 +1,5 @@
 import { Server, Socket } from 'socket.io';
-import Note from '../models/Note';
+import Note from '../models/note.model';
 import {
   NoteAddPayload,
   NoteUpdatePayload,
