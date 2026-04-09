@@ -39,8 +39,24 @@ export interface AuthContextType {
   isLoading: boolean;
 }
 
-export interface ApiResponse<T> {
-  message?: string;
-  data?: T;
-  error?: string;
+export interface NoteAddPayload {
+  boardId: string;
+  columnId: string;
+  content: string;
+  authorId: string;
+}
+
+export interface NoteUpdatePayload {
+  noteId: string;
+  content: string;
+}
+
+export interface NoteVotePayload {
+  noteId: string;
+  userId: string;
+}
+
+export interface TimerPayload {
+  boardId: string;
+  durationSeconds: number;
 }

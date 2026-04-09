@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import type { Board, Note } from '../types';
-import { apiClient } from '../api';
+import { useAuth } from '../contexts/AuthContext';
+import { socketService } from '../services/socketService';
 import NoteCard from './NoteCard';
 import AddNoteForm from './AddNoteForm';
 
@@ -8,63 +9,80 @@ interface BoardViewProps {
   board: Board;
   notes: Note[];
   isGuest: boolean;
-  onNotesChange: (notes: Note[]) => void;
+  onNotesChange: React.Dispatch<React.SetStateAction<Note[]>>;
 }
 
 const BoardView: React.FC<BoardViewProps> = ({ board, notes, isGuest, onNotesChange }) => {
   const [isAddingNote, setIsAddingNote] = useState<string | null>(null);
+  const { user } = useAuth();
 
-  const handleAddNote = async (columnId: string, content: string) => {
-    if (isGuest) return;
+  useEffect(() => {
+    socketService.joinBoard(board._id);
 
-    try {
-      const response = await apiClient.createNote(board._id, columnId, content);
-      onNotesChange([...notes, response.note]);
-      setIsAddingNote(null);
-    } catch (error) {
-      console.error('Failed to add note:', error);
-      alert('Failed to add note');
-    }
+    const handleNoteAdded = (note: Note) => {
+      onNotesChange((prevNotes) => [...prevNotes, note]);
+    };
+
+    const handleNoteUpdated = (note: Note) => {
+      onNotesChange((prevNotes) => prevNotes.map((n) => (n._id === note._id ? note : n)));
+    };
+
+    const handleNoteDeleted = (noteId: string) => {
+      onNotesChange((prevNotes) => prevNotes.filter((n) => n._id !== noteId));
+    };
+
+    const handleNoteVoted = (note: Note) => {
+      onNotesChange((prevNotes) => prevNotes.map((n) => (n._id === note._id ? note : n)));
+    };
+
+    socketService.onNoteAdded(handleNoteAdded);
+    socketService.onNoteUpdated(handleNoteUpdated);
+    socketService.onNoteDeleted(handleNoteDeleted);
+    socketService.onNoteVoted(handleNoteVoted);
+
+    return () => {
+      socketService.off('note:added', handleNoteAdded);
+      socketService.off('note:updated', handleNoteUpdated);
+      socketService.off('note:deleted', handleNoteDeleted);
+      socketService.off('note:voted', handleNoteVoted);
+      socketService.leaveBoard(board._id);
+    };
+  }, [board._id, onNotesChange]);
+
+  const handleAddNote = (columnId: string, content: string) => {
+    if (isGuest || !user) return;
+
+    socketService.addNote({
+      boardId: board._id,
+      columnId,
+      content,
+      authorId: user.id,
+    });
+    setIsAddingNote(null);
   };
 
-  const handleUpdateNote = async (noteId: string, content: string) => {
+  const handleUpdateNote = (noteId: string, content: string) => {
     if (isGuest) return;
 
-    try {
-      const response = await apiClient.updateNote(noteId, content);
-      onNotesChange(notes.map(note =>
-        note._id === noteId ? response.note : note
-      ));
-    } catch (error) {
-      console.error('Failed to update note:', error);
-      alert('Failed to update note');
-    }
+    socketService.updateNote({
+      noteId,
+      content,
+    });
   };
 
-  const handleDeleteNote = async (noteId: string) => {
+  const handleDeleteNote = (noteId: string) => {
     if (isGuest) return;
 
-    try {
-      await apiClient.deleteNote(noteId);
-      onNotesChange(notes.filter(note => note._id !== noteId));
-    } catch (error) {
-      console.error('Failed to delete note:', error);
-      alert('Failed to delete note');
-    }
+    socketService.deleteNote(noteId);
   };
 
-  const handleVoteNote = async (noteId: string) => {
-    if (isGuest) return;
+  const handleVoteNote = (noteId: string) => {
+    if (isGuest || !user) return;
 
-    try {
-      const response = await apiClient.voteNote(noteId);
-      onNotesChange(notes.map(note =>
-        note._id === noteId ? response.note : note
-      ));
-    } catch (error) {
-      console.error('Failed to vote note:', error);
-      alert('Failed to vote note');
-    }
+    socketService.voteNote({
+      noteId,
+      userId: user.id,
+    });
   };
 
   const getNotesForColumn = (columnId: string) => {

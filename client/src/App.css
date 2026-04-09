@@ -702,6 +702,123 @@
   max-width: 400px;
 }
 
+.board-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.presence-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #f7fafc;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+  font-size: 0.9rem;
+  color: #4a5568;
+}
+
+.presence-icon {
+  font-size: 1.2rem;
+}
+
+.presence-count {
+  font-weight: 500;
+}
+
+.countdown-timer {
+  display: flex;
+  align-items: center;
+}
+
+.timer-setup {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.timer-setup label {
+  font-size: 0.9rem;
+  color: #4a5568;
+  font-weight: 500;
+}
+
+.timer-setup select {
+  padding: 0.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  background: white;
+}
+
+.timer-setup select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+}
+
+.start-timer-button {
+  background: #48bb78;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.start-timer-button:hover:not(:disabled) {
+  background: #38a169;
+}
+
+.start-timer-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.timer-display {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.timer-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.timer-text {
+  color: white;
+  font-size: 1.1rem;
+  font-weight: bold;
+  font-family: monospace;
+}
+
+.stop-timer-button {
+  background: #e53e3e;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.stop-timer-button:hover {
+  background: #c53030;
+}
 /* Responsive Design */
 @media (max-width: 768px) {
   .board-columns {
@@ -727,11 +844,26 @@
     flex-direction: column;
   }
 
+  .board-controls {
+    flex-direction: column;
+    width: 100%;
+  }
+
   .form-actions {
     flex-direction: column;
   }
 
   .columns-preview {
     flex-direction: column;
+  }
+
+  .timer-setup {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .timer-display {
+    flex-direction: column;
+    gap: 0.5rem;
   }
 }

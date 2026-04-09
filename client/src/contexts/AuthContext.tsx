@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import type { User, AuthContextType } from '../types';
 import { apiClient } from '../api';
+import { socketService } from '../services/socketService';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -27,16 +28,20 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (storedToken) {
       setToken(storedToken);
       apiClient.setToken(storedToken);
-      loadUser();
+      loadUser(storedToken);
     } else {
+      socketService.connect();
       setIsLoading(false);
     }
   }, []);
 
-  const loadUser = async () => {
+  const loadUser = async (authToken?: string) => {
     try {
       const response = await apiClient.getCurrentUser();
       setUser(response.user);
+      if (authToken) {
+        socketService.connect(authToken);
+      }
     } catch (error) {
       console.error('Failed to load user:', error);
       logout();
@@ -51,6 +56,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setToken(response.token);
     apiClient.setToken(response.token);
     localStorage.setItem('token', response.token);
+    socketService.connect(response.token);
   };
 
   const register = async (username: string, email: string, password: string) => {
@@ -59,6 +65,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setToken(response.token);
     apiClient.setToken(response.token);
     localStorage.setItem('token', response.token);
+    socketService.connect(response.token);
   };
 
   const logout = () => {
@@ -66,6 +73,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setToken(null);
     apiClient.setToken('');
     localStorage.removeItem('token');
+    socketService.disconnect();
   };
 
   const value: AuthContextType = {

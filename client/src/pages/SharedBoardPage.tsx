@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import { apiClient } from '../api';
 import type { Board, Note } from '../types';
 import BoardView from '../components/BoardView';
+import PresenceIndicator from '../components/PresenceIndicator';
+import CountdownTimer from '../components/CountdownTimer';
 
 const SharedBoardPage: React.FC = () => {
   const { boardId } = useParams<{ boardId: string }>();
@@ -47,10 +49,18 @@ const SharedBoardPage: React.FC = () => {
   return (
     <div className="shared-board-page">
       <header className="shared-board-header">
-        <h1>{board.title}</h1>
-        <p className="sprint-info">Sprint: {board.sprintName}</p>
-        <div className="guest-notice">
-          <span>👁️ Viewing as guest</span>
+        <div className="header-content">
+          <div className="board-info">
+            <h1>{board.title}</h1>
+            <p className="sprint-info">Sprint: {board.sprintName}</p>
+          </div>
+          <div className="board-controls">
+            <PresenceIndicator boardId={boardId!} />
+            <CountdownTimer boardId={boardId!} isGuest={true} />
+            <div className="guest-notice">
+              <span>👁️ Viewing as guest</span>
+            </div>
+          </div>
         </div>
       </header>
       <BoardView

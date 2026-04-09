@@ -4,6 +4,8 @@ import { useAuth } from '../contexts/AuthContext';
 import { apiClient } from '../api';
 import type { Board, Note } from '../types';
 import BoardView from '../components/BoardView';
+import PresenceIndicator from '../components/PresenceIndicator';
+import CountdownTimer from '../components/CountdownTimer';
 
 const BoardPage: React.FC = () => {
   const { boardId } = useParams<{ boardId: string }>();
@@ -67,9 +69,13 @@ const BoardPage: React.FC = () => {
             <h1>{board.title}</h1>
             <p className="sprint-info">Sprint: {board.sprintName}</p>
           </div>
-          <button onClick={handleShare} className="share-button">
-            Share Board
-          </button>
+          <div className="board-controls">
+            <PresenceIndicator boardId={boardId!} />
+            <CountdownTimer boardId={boardId!} isGuest={false} />
+            <button onClick={handleShare} className="share-button">
+              Share Board
+            </button>
+          </div>
         </div>
       </header>
       <BoardView
