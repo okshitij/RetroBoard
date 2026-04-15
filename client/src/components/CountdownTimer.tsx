@@ -17,10 +17,24 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ boardId, isGuest }) => 
       setIsRunning(remainingTime > 0);
     };
 
+    const handleTimerStopped = () => {
+      setRemaining(null);
+      setIsRunning(false);
+    };
+
+    const handleTimerEnded = () => {
+      setRemaining(null);
+      setIsRunning(false);
+    };
+
     socketService.onTimerTick(handleTimerTick);
+    socketService.onTimerStopped(handleTimerStopped);
+    socketService.onTimerEnded(handleTimerEnded);
 
     return () => {
       socketService.off('timer:tick', handleTimerTick);
+      socketService.off('timer:stopped', handleTimerStopped);
+      socketService.off('timer:ended', handleTimerEnded);
     };
   }, []);
 
@@ -39,6 +53,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ boardId, isGuest }) => 
   const stopTimer = () => {
     setRemaining(null);
     setIsRunning(false);
+    socketService.stopTimer({ boardId });
   };
 
   const formatTime = (seconds: number): string => {

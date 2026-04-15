@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Login - The Fluid Architect</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed-dim": "#96b1ff",
+                        "secondary-container": "#6bfde0",
+                        "tertiary-fixed-dim": "#ff8b68",
+                        "error-dim": "#70030f",
+                        "secondary": "#006c5c",
+                        "surface": "#f7f9fb",
+                        "on-secondary-fixed-variant": "#006a5a",
+                        "error": "#ac3434",
+                        "background": "#f7f9fb",
+                        "on-secondary-fixed": "#004a3f",
+                        "primary-dim": "#004bbc",
+                        "outline": "#757c7f",
+                        "on-error-container": "#65000b",
+                        "secondary-dim": "#005e51",
+                        "surface-bright": "#f7f9fb",
+                        "outline-variant": "#acb3b7",
+                        "surface-variant": "#dde3e7",
+                        "surface-container-highest": "#dde3e7",
+                        "tertiary": "#ad350a",
+                        "on-secondary-container": "#005f51",
+                        "on-tertiary-fixed": "#430d00",
+                        "primary-container": "#aabfff",
+                        "on-tertiary": "#fff7f5",
+                        "surface-container": "#eaeef1",
+                        "tertiary-container": "#ffa184",
+                        "primary-fixed": "#aabfff",
+                        "secondary-fixed": "#6bfde0",
+                        "on-surface": "#2d3337",
+                        "on-secondary": "#e3fff6",
+                        "inverse-surface": "#0b0f10",
+                        "surface-container-high": "#e3e9ec",
+                        "on-background": "#2d3337",
+                        "surface-tint": "#0f57d0",
+                        "on-primary-fixed": "#002361",
+                        "surface-container-low": "#f1f4f6",
+                        "surface-dim": "#d3dbdf",
+                        "on-tertiary-container": "#691a00",
+                        "on-tertiary-fixed-variant": "#791f00",
+                        "primary": "#0f57d0",
+                        "tertiary-fixed": "#ffa184",
+                        "surface-container-lowest": "#ffffff",
+                        "error-container": "#f56965",
+                        "on-surface-variant": "#596063",
+                        "on-primary-container": "#00368d",
+                        "on-primary-fixed-variant": "#003e9f",
+                        "secondary-fixed-dim": "#5aeed2",
+                        "on-error": "#fff7f6",
+                        "tertiary-dim": "#9b2a00",
+                        "on-primary": "#f9f8ff",
+                        "inverse-on-surface": "#9a9d9f",
+                        "inverse-primary": "#5c8bff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bg-abstract {
+            background-color: #f7f9fb;
+            background-image: 
+                radial-gradient(at 0% 0%, #aabfff 0px, transparent 50%),
+                radial-gradient(at 100% 0%, #6bfde0 0px, transparent 50%),
+                radial-gradient(at 100% 100%, #ffa184 0px, transparent 50%),
+                radial-gradient(at 0% 100%, #0f57d0 0px, transparent 50%);
+            background-size: 100% 100%;
+            opacity: 0.08;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface min-h-screen flex items-center justify-center p-6 selection:bg-primary-container selection:text-on-primary-container">
+<div class="fixed inset-0 bg-abstract -z-10" data-alt="Soft abstract wash of pastel blues, mints, and corals in a smooth gradient to create a peaceful professional background"></div>
+<main class="w-full max-w-md">
+<!-- Brand Logo & Header -->
+<div class="text-center mb-10">
+<div class="inline-flex items-center justify-center w-16 h-16 bg-surface-container-lowest rounded-xl shadow-sm mb-4">
+<span class="material-symbols-outlined text-primary text-4xl" data-icon="architecture">architecture</span>
+</div>
+<h1 class="text-3xl font-extrabold tracking-tight text-on-surface mb-2">The Fluid Architect</h1>
+<p class="text-on-surface-variant font-medium">Build better retrospectives together.</p>
+</div>
+<!-- Auth Card -->
+<div class="bg-surface-container-lowest rounded-xl p-8 shadow-[0_32px_64px_-12px_rgba(45,51,55,0.06)] border border-outline-variant/10">
+<div class="space-y-6">
+<!-- Social Login Cluster -->
+<div class="grid grid-cols-2 gap-4">
+<button class="flex items-center justify-center gap-3 py-3 px-4 rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-all duration-200 active:scale-[0.98]">
+<img alt="Google" class="w-5 h-5" data-alt="Google logo icon colorful" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBa2bthaHk3ouPbT0HxphZXvCABuSsLITT6sDpdcMMH7iw1qrcZduJz-r0LT-4M_5RO6Qu62y2HUt1tAp3PHKp0iN7nobgGpT9I6ZoDMS0M8iSfN-OZ8IcdCc4DLHlP4pZjd_vwQ84YyE6V3GCs4w2fi8e-Mj-BMqQ53Bhpn-QQ9RL32Oll_Q87IFPS4Rn7XwnvmnLp7RDxmZ18_ioa2SV969sGq6sQxYeeK5xsl2O4GxFaMr6yWBWBJUZucsJhtMYdhx8Sl6y41A"/>
+<span class="text-sm font-semibold tracking-tight">Google</span>
+</button>
+<button class="flex items-center justify-center gap-3 py-3 px-4 rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-all duration-200 active:scale-[0.98]">
+<span class="material-symbols-outlined text-xl" data-icon="terminal">terminal</span>
+<span class="text-sm font-semibold tracking-tight">GitHub</span>
+</button>
+</div>
+<div class="flex items-center gap-4 py-2">
+<div class="h-[1px] flex-1 bg-outline-variant/20"></div>
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant/60">OR CONTINUE WITH EMAIL</span>
+<div class="h-[1px] flex-1 bg-outline-variant/20"></div>
+</div>
+<!-- Form -->
+<form class="space-y-4">
+<div class="space-y-1.5">
+<label class="text-xs font-bold text-on-surface-variant uppercase tracking-wider ml-1" for="email">Email Address</label>
+<div class="relative">
+<input class="w-full bg-transparent border-0 border-b border-outline-variant py-3 px-1 text-on-surface placeholder:text-on-surface-variant/40 focus:ring-0 focus:border-primary transition-all duration-300" id="email" placeholder="name@company.com" type="email"/>
+</div>
+</div>
+<div class="space-y-1.5">
+<div class="flex justify-between items-center ml-1">
+<label class="text-xs font-bold text-on-surface-variant uppercase tracking-wider" for="password">Password</label>
+<a class="text-[11px] font-bold text-primary hover:text-primary-dim transition-colors uppercase tracking-wider" href="#">Forgot?</a>
+</div>
+<div class="relative">
+<input class="w-full bg-transparent border-0 border-b border-outline-variant py-3 px-1 text-on-surface placeholder:text-on-surface-variant/40 focus:ring-0 focus:border-primary transition-all duration-300" id="password" placeholder="••••••••" type="password"/>
+</div>
+</div>
+<div class="pt-4">
+<button class="w-full bg-gradient-to-br from-primary to-primary-dim text-on-primary font-bold py-4 rounded-xl shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all duration-200 active:scale-[0.97]" type="submit">
+                            Sign In to Workspace
+                        </button>
+</div>
+</form>
+</div>
+<!-- Trust Indicator -->
+<div class="mt-8 pt-6 flex flex-col items-center gap-4 text-center">
+<div class="flex -space-x-2">
+<img alt="User 1" class="w-8 h-8 rounded-full border-2 border-surface-container-lowest" data-alt="Professional headshot of a female team leader in a creative studio environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbqijcbrbrZYV3VJlF06YfU55ZH1Ge7XZ6ofQeIJDGlAD30wijQe3YDfgz3CFGFd8Jf1kNMtKaS-SREiOPU6nwwiVZ7_z1dPBTi_-T1FcmPDx6RZHzMzGopvsmqRrXIWtbkVAu1HuP1V4wIQiWbVVP-expDq7MRNfiNTobpu7nUXgkLymbAiNwePVPZu75M66uRhEc6V2dSAG1vsIwL2jz2dJZCQ2YWewm2IWHMjOfUW4YhhAosIH90WhYLX8kZtm4e23n2dBvOw"/>
+<img alt="User 2" class="w-8 h-8 rounded-full border-2 border-surface-container-lowest" data-alt="Close up portrait of a smiling male software architect with glasses" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAacNDV8Wym9F7XTlCyluAjK_J8fRdLJLAwIyzI32ypsj-IayRRdk0Z1p0u8xNWjIO0HumTNh3G6A-D1UAqVM7-HHD74--DeOoMOJtPRil46WFdo-uCf4HoNp8GiGEkYgbNGy_hht9iPx7BQ13FQ0U97FJT-tqLnUNiMOYCVrvzJ6d949_pw6ORNmOXGCsHMasrOZus55Ksf6sX1p3OEWE-PKu3BrYIDNc41rwlg5m9jTl-21WBZUWLrVE_Kug2h0UrfSz98UGwQA"/>
+<img alt="User 3" class="w-8 h-8 rounded-full border-2 border-surface-container-lowest" data-alt="Modern professional woman with a friendly expression in a brightly lit office" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyWXnKQPHCPTtKOxUzWtX6UJFHiAMB2BY4v2fzqwlPRXhlTM0Uv5nA5jZkH62EKlk80IqsZQ3W8xg3B7hlveP0S2gjr1mXg525ynP6wBndQhf-t0PSfmzUyrB9HAQS_jy1H0hKUB6QMhVbLDARSwpApiZJoWXUC9FZjJry6LiFuZLxCEu2E2l8DZwmXSUZi1I76Q2vwc3wRH2lsjfiSaPHasOeoxtWpbszaWAQ4nF_ZVEWrtlpPHe8P8pSZV8W5dijrP5ZowUhtg"/>
+<div class="w-8 h-8 rounded-full border-2 border-surface-container-lowest bg-primary-container flex items-center justify-center text-[10px] font-black text-on-primary-container">+12k</div>
+</div>
+<p class="text-xs text-on-surface-variant max-w-[240px]">
+                    Trusted by high-performance teams at leading design and engineering studios.
+                </p>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="mt-8 text-center space-y-4">
+<p class="text-sm text-on-surface-variant">
+                Don't have an account? <a class="text-primary font-bold hover:underline decoration-2 underline-offset-4" href="#">Create your workspace</a>
+</p>
+<div class="flex items-center justify-center gap-6 pt-4">
+<a class="text-[10px] font-bold text-on-surface-variant/60 uppercase tracking-widest hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="text-[10px] font-bold text-on-surface-variant/60 uppercase tracking-widest hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="text-[10px] font-bold text-on-surface-variant/60 uppercase tracking-widest hover:text-primary transition-colors" href="#">Security</a>
+</div>
+</div>
+</main>
+<!-- Contextual Security Badge -->
+<div class="fixed bottom-8 right-8 hidden lg:flex items-center gap-3 bg-surface-container-lowest/80 backdrop-blur-md px-4 py-2 rounded-full border border-outline-variant/10 shadow-sm">
+<span class="material-symbols-outlined text-secondary text-lg" data-icon="verified_user" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<span class="text-[10px] font-bold tracking-widest text-on-surface-variant uppercase">Enterprise-Grade AES-256 Encryption</span>
+</div>
+</body></html>

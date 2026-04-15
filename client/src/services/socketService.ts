@@ -81,6 +81,12 @@ class SocketService {
     }
   }
 
+  stopTimer(payload: { boardId: string }) {
+    if (this.socket) {
+      this.socket.emit('timer:stop', payload);
+    }
+  }
+
   // Event listeners
   onNoteAdded(callback: (note: Note) => void) {
     if (this.socket) {
@@ -109,6 +115,18 @@ class SocketService {
   onTimerTick(callback: (remaining: number) => void) {
     if (this.socket) {
       this.socket.on('timer:tick', ({ remaining }) => callback(remaining));
+    }
+  }
+
+  onTimerStopped(callback: () => void) {
+    if (this.socket) {
+      this.socket.on('timer:stopped', callback);
+    }
+  }
+
+  onTimerEnded(callback: () => void) {
+    if (this.socket) {
+      this.socket.on('timer:ended', callback);
     }
   }
 

@@ -9,25 +9,18 @@ const PresenceIndicator: React.FC<PresenceIndicatorProps> = ({ boardId }) => {
   const [userCount, setUserCount] = useState(1); // Start with 1 (current user)
 
   useEffect(() => {
-    let currentCount = 1;
-
-    socketService.joinBoard(boardId);
-
     const handleUserJoined = () => {
-      currentCount += 1;
-      setUserCount(currentCount);
+      setUserCount(prev => prev + 1);
     };
 
     const handleUserLeft = () => {
-      currentCount = Math.max(0, currentCount - 1);
-      setUserCount(currentCount);
+      setUserCount(prev => Math.max(0, prev - 1));
     };
 
     socketService.onUserJoined(handleUserJoined);
     socketService.onUserLeft(handleUserLeft);
 
     return () => {
-      socketService.leaveBoard(boardId);
       socketService.off('user:joined', handleUserJoined);
       socketService.off('user:left', handleUserLeft);
     };

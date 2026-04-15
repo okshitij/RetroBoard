@@ -7,11 +7,18 @@ import {
   TimerPayload,
 } from '../types';
 
+const activeTimers = new Map<string, NodeJS.Timeout>();
+
 export const registerBoardSocket = (io: Server, socket: Socket): void => {
 
   socket.on('join-board', (boardId: string) => {
     socket.join(boardId);
     socket.to(boardId).emit('user:joined', { socketId: socket.id });
+  });
+
+  socket.on('leave-board', (boardId: string) => {
+    socket.leave(boardId);
+    socket.to(boardId).emit('user:left', { socketId: socket.id });
   });
 
   socket.on('note:add', async (payload: NoteAddPayload) => {
@@ -57,15 +64,39 @@ export const registerBoardSocket = (io: Server, socket: Socket): void => {
   });
 
   socket.on('timer:start', (payload: TimerPayload) => {
+    // Clear any existing timer for this board
+    const existingInterval = activeTimers.get(payload.boardId);
+    if (existingInterval) {
+      clearInterval(existingInterval);
+    }
+
     let remaining = payload.durationSeconds;
     const interval = setInterval(() => {
       remaining--;
       io.to(payload.boardId).emit('timer:tick', { remaining });
-      if (remaining <= 0) clearInterval(interval);
+      if (remaining <= 0) {
+        clearInterval(interval);
+        activeTimers.delete(payload.boardId);
+        io.to(payload.boardId).emit('timer:ended');
+      }
     }, 1000);
+    activeTimers.set(payload.boardId, interval);
+  });
+
+  socket.on('timer:stop', (payload: { boardId: string }) => {
+    const interval = activeTimers.get(payload.boardId);
+    if (interval) {
+      clearInterval(interval);
+      activeTimers.delete(payload.boardId);
+    }
+    io.to(payload.boardId).emit('timer:stopped');
   });
 
   socket.on('disconnect', () => {
-    socket.broadcast.emit('user:left', { socketId: socket.id });
+    socket.rooms.forEach(room => {
+      if (room !== socket.id) {
+        socket.to(room).emit('user:left', { socketId: socket.id });
+      }
+    });
   });
 };
