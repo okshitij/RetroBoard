@@ -43,7 +43,7 @@ export interface ActivityEntry {
   _id: string;
   boardId: string;
   userId: User | string;
-  action: 'note:added' | 'note:edited' | 'note:deleted' | 'note:voted' | 'user:added' | 'user:removed' | 'user:role_changed' | 'board:created';
+  action: 'note:added' | 'note:edited' | 'note:deleted' | 'note:voted' | 'user:added' | 'user:removed' | 'user:role_changed' | 'user:joined' | 'board:created';
   target: 'note' | 'user' | 'board';
   targetId?: string;
   details: Record<string, any>;

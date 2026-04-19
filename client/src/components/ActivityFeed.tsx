@@ -57,6 +57,7 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({ boardId }) => {
       'note:deleted': 'deleted a note',
       'note:voted': 'voted on a note',
       'user:added': 'added a member',
+      'user:joined': 'joined the board',
       'user:removed': 'removed a member',
       'user:role_changed': 'changed member role',
       'board:created': 'created the board',

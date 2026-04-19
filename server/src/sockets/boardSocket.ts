@@ -71,7 +71,7 @@ export const registerBoardSocket = (io: Server, socket: Socket): void => {
 
       // Log activity
       if (user) {
-        await ActivityLoggerService.logActivity(boardId, user.userId, 'user:added', 'user', undefined, {
+        await ActivityLoggerService.logActivity(boardId, user.userId, 'user:joined', 'user', undefined, {
           event: 'joined_board',
         });
       }
@@ -291,9 +291,11 @@ export const registerBoardSocket = (io: Server, socket: Socket): void => {
         voteCount: note.votes.length,
       });
 
-      const populatedNote = await note.populate('author', 'username email').populate('lastModifiedBy', 'username email');
+      const populatedNote = await Note.findById(note._id)
+        .populate('author', 'username email')
+        .populate('lastModifiedBy', 'username email');
       io.to(note.boardId.toString()).emit('note:voted', {
-        ...populatedNote.toObject(),
+        ...populatedNote?.toObject(),
         userId: user.userId,
         username: (await User.findById(user.userId).select('username'))?.username,
         hasVoted,

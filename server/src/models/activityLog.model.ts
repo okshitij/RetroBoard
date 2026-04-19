@@ -6,7 +6,7 @@ const ActivityLogSchema = new Schema<IActivityLog>({
   userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   action: {
     type: String,
-    enum: ['note:added', 'note:edited', 'note:deleted', 'note:voted', 'user:added', 'user:removed', 'user:role_changed', 'board:created'],
+    enum: ['note:added', 'note:edited', 'note:deleted', 'note:voted', 'user:added', 'user:removed', 'user:role_changed', 'user:joined', 'board:created'],
     required: true,
   },
   target: {
