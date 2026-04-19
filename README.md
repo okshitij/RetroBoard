@@ -90,7 +90,7 @@ RetroBoard/
 
    Create a `.env` file in the `server` directory:
    ```env
-   PORT=3000
+   PORT=5000
    MONGODB_URI=mongodb://localhost:27017/retrospect
    JWT_SECRET=your-super-secret-jwt-key
    ```
@@ -116,7 +116,7 @@ RetroBoard/
 
 The application will be available at:
 - Frontend: `http://localhost:5173`
-- Backend: `http://localhost:3000`
+- Backend: `http://localhost:5000`
 
 ### Production Build
 

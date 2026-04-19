@@ -9,10 +9,19 @@ interface BoardViewProps {
   board: Board;
   notes: Note[];
   isGuest: boolean;
+  isViewer?: boolean;
   onNotesChange: React.Dispatch<React.SetStateAction<Note[]>>;
+  onError?: (error: string) => void;
 }
 
-const BoardView: React.FC<BoardViewProps> = ({ board, notes, isGuest, onNotesChange }) => {
+const BoardView: React.FC<BoardViewProps> = ({
+  board,
+  notes,
+  isGuest,
+  isViewer = false,
+  onNotesChange,
+  onError,
+}) => {
   const [isAddingNote, setIsAddingNote] = useState<string | null>(null);
   const { user } = useAuth();
 
@@ -35,22 +44,30 @@ const BoardView: React.FC<BoardViewProps> = ({ board, notes, isGuest, onNotesCha
       onNotesChange((prevNotes) => prevNotes.map((n) => (n._id === note._id ? note : n)));
     };
 
+    const handleSocketError = (error: any) => {
+      const message = error?.message || 'An error occurred';
+      if (onError) onError(message);
+      console.error('Socket error:', message);
+    };
+
     socketService.onNoteAdded(handleNoteAdded);
     socketService.onNoteUpdated(handleNoteUpdated);
     socketService.onNoteDeleted(handleNoteDeleted);
     socketService.onNoteVoted(handleNoteVoted);
+    socketService.onError(handleSocketError);
 
     return () => {
       socketService.off('note:added', handleNoteAdded);
       socketService.off('note:updated', handleNoteUpdated);
       socketService.off('note:deleted', handleNoteDeleted);
       socketService.off('note:voted', handleNoteVoted);
+      socketService.off('error', handleSocketError);
       socketService.leaveBoard(board._id);
     };
-  }, [board._id, onNotesChange]);
+  }, [board._id, onNotesChange, onError]);
 
   const handleAddNote = (columnId: string, content: string) => {
-    if (isGuest || !user) return;
+    if (isGuest || isViewer || !user) return;
 
     socketService.addNote({
       boardId: board._id,
@@ -62,7 +79,7 @@ const BoardView: React.FC<BoardViewProps> = ({ board, notes, isGuest, onNotesCha
   };
 
   const handleUpdateNote = (noteId: string, content: string) => {
-    if (isGuest) return;
+    if (isGuest || isViewer) return;
 
     socketService.updateNote({
       noteId,
@@ -71,13 +88,13 @@ const BoardView: React.FC<BoardViewProps> = ({ board, notes, isGuest, onNotesCha
   };
 
   const handleDeleteNote = (noteId: string) => {
-    if (isGuest) return;
+    if (isGuest || isViewer) return;
 
     socketService.deleteNote(noteId);
   };
 
   const handleVoteNote = (noteId: string) => {
-    if (isGuest || !user) return;
+    if (isGuest || isViewer || !user) return;
 
     socketService.voteNote({
       noteId,
@@ -89,6 +106,8 @@ const BoardView: React.FC<BoardViewProps> = ({ board, notes, isGuest, onNotesCha
     return notes.filter(note => note.columnId === columnId);
   };
 
+  const canAddNotes = !isGuest && !isViewer;
+
   return (
     <div className="board-view">
       <div className="board-columns">
@@ -96,7 +115,7 @@ const BoardView: React.FC<BoardViewProps> = ({ board, notes, isGuest, onNotesCha
           <div key={column.id} className="board-column">
             <div className="column-header">
               <h3>{column.title}</h3>
-              {!isGuest && (
+              {canAddNotes && (
                 <button
                   onClick={() => setIsAddingNote(column.id)}
                   className="add-note-button"
@@ -112,6 +131,8 @@ const BoardView: React.FC<BoardViewProps> = ({ board, notes, isGuest, onNotesCha
                   key={note._id}
                   note={note}
                   isGuest={isGuest}
+                  isViewer={isViewer}
+                  currentUserId={user?.id}
                   onUpdate={(content) => handleUpdateNote(note._id, content)}
                   onDelete={() => handleDeleteNote(note._id)}
                   onVote={() => handleVoteNote(note._id)}
@@ -121,6 +142,8 @@ const BoardView: React.FC<BoardViewProps> = ({ board, notes, isGuest, onNotesCha
                 <AddNoteForm
                   onAdd={(content) => handleAddNote(column.id, content)}
                   onCancel={() => setIsAddingNote(null)}
+                  isViewer={isViewer}
+                  isGuest={isGuest}
                 />
               )}
             </div>

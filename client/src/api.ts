@@ -1,6 +1,6 @@
-import type { User, Board, Note } from './types';
+import type { User, Board, Note, BoardMember, ActivityEntry } from './types';
 
-const API_BASE_URL = 'http://localhost:3000/api';
+const API_BASE_URL = 'http://localhost:5000/api';
 
 class ApiClient {
   private token: string | null = null;
@@ -75,6 +75,44 @@ class ApiClient {
 
   async getSharedBoard(boardId: string) {
     return this.request<{ board: Board }>(`/boards/shared/${boardId}`);
+  }
+
+  // Board member endpoints
+  async getBoardMembers(boardId: string) {
+    return this.request<{ owner: User; members: BoardMember[] }>(`/boards/${boardId}/members`);
+  }
+
+  async addBoardMember(boardId: string, username: string, role: 'editor' | 'viewer') {
+    return this.request<{ board: Board; message: string }>(`/boards/${boardId}/members`, {
+      method: 'POST',
+      body: JSON.stringify({ username, role }),
+    });
+  }
+
+  async removeBoardMember(boardId: string, userId: string) {
+    return this.request<{ board: Board; message: string }>(`/boards/${boardId}/members/${userId}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async updateMemberRole(boardId: string, userId: string, role: 'editor' | 'viewer') {
+    return this.request<{ board: Board; message: string }>(`/boards/${boardId}/members/${userId}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ role }),
+    });
+  }
+
+  // Board activity endpoints
+  async getBoardActivity(boardId: string, limit: number = 50, offset: number = 0) {
+    return this.request<{ activities: ActivityEntry[]; total: number; limit: number; offset: number }>(
+      `/boards/${boardId}/activity?limit=${limit}&offset=${offset}`
+    );
+  }
+
+  async getNoteActivity(boardId: string, noteId: string, limit: number = 50, offset: number = 0) {
+    return this.request<{ activities: ActivityEntry[]; total: number; limit: number; offset: number }>(
+      `/boards/${boardId}/notes/${noteId}/activity?limit=${limit}&offset=${offset}`
+    );
   }
 
   // Note endpoints

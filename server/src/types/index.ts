@@ -13,11 +13,17 @@ export interface IColumn {
   order: number;
 }
 
+export interface IBoardMember {
+  userId: Types.ObjectId;
+  role: 'editor' | 'viewer';
+  joinedAt: Date;
+}
+
 export interface IBoard extends Document {
   title: string;
   sprintName: string;
   owner: Types.ObjectId;
-  members: Types.ObjectId[];
+  members: IBoardMember[];
   columns: IColumn[];
   createdAt: Date;
 }
@@ -28,7 +34,19 @@ export interface INote extends Document {
   content: string;
   author: Types.ObjectId;
   votes: Types.ObjectId[];
+  lastModifiedBy?: Types.ObjectId;
+  lastModifiedAt?: Date;
   createdAt: Date;
+}
+
+export interface IActivityLog extends Document {
+  boardId: Types.ObjectId;
+  userId: Types.ObjectId;
+  action: 'note:added' | 'note:edited' | 'note:deleted' | 'note:voted' | 'user:added' | 'user:removed' | 'user:role_changed' | 'board:created';
+  target: 'note' | 'user' | 'board';
+  targetId?: Types.ObjectId;
+  details: Record<string, any>;
+  timestamp: Date;
 }
 
 // JWT payload shape

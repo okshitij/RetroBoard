@@ -7,6 +7,8 @@ const NoteSchema = new Schema<INote>({
   content:  { type: String, required: true },
   author:   { type: Schema.Types.ObjectId, ref: 'User', required: true },
   votes:    [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  lastModifiedBy: { type: Schema.Types.ObjectId, ref: 'User' },
+  lastModifiedAt: { type: Date },
 }, { timestamps: true });
 
 export default mongoose.model<INote>('Note', NoteSchema);

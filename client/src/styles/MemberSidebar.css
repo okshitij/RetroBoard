@@ -1,0 +1,150 @@
+.member-sidebar {
+  background: #f5f5f5;
+  border-left: 1px solid #ddd;
+  padding: 1rem;
+  height: 100%;
+  overflow-y: auto;
+  min-width: 280px;
+}
+
+.member-sidebar .sidebar-header {
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #ddd;
+}
+
+.member-sidebar .sidebar-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.member-sidebar .error-message {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 0.75rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.member-sidebar .members-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.member-sidebar .member-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.member-sidebar .member-item:hover {
+  background: #fafafa;
+  border-color: #bdbdbd;
+}
+
+.member-sidebar .member-item.owner {
+  background: #f0f8ff;
+  border-color: #4caf50;
+}
+
+.member-sidebar .member-item.current-user {
+  background: #f5f5f5;
+  border-left: 3px solid #2196f3;
+}
+
+.member-sidebar .member-info {
+  flex: 1;
+}
+
+.member-sidebar .member-name {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.25rem;
+}
+
+.member-sidebar .member-name .current-badge {
+  color: #999;
+  font-weight: 400;
+  font-size: 0.85rem;
+}
+
+.member-sidebar .member-details {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 0.85rem;
+}
+
+.member-sidebar .member-joined {
+  color: #888;
+  font-size: 0.8rem;
+}
+
+.member-sidebar .member-role-badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 3px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: white;
+}
+
+.member-sidebar .member-role-badge.owner {
+  background-color: #4caf50;
+}
+
+.member-sidebar .member-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.member-sidebar .btn-small {
+  padding: 0.4rem 0.6rem;
+  font-size: 0.8rem;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.member-sidebar .btn-small:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.member-sidebar .btn-editor {
+  background-color: #4caf50;
+  color: white;
+}
+
+.member-sidebar .btn-editor:hover:not(:disabled) {
+  background-color: #45a049;
+}
+
+.member-sidebar .btn-viewer {
+  background-color: #2196f3;
+  color: white;
+}
+
+.member-sidebar .btn-viewer:hover:not(:disabled) {
+  background-color: #0b7dda;
+}
+
+.member-sidebar .btn-remove {
+  background-color: #f44336;
+  color: white;
+}
+
+.member-sidebar .btn-remove:hover:not(:disabled) {
+  background-color: #da190b;
+}

@@ -866,4 +866,185 @@
     flex-direction: column;
     gap: 0.5rem;
   }
+
+  .board-container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .board-container > * {
+    max-width: 100%;
+    border: none;
+  }
 }
+
+/* New Board Page Layout with Sidebar and Activity Feed */
+.board-page-layout {
+  min-height: 100vh;
+  background: #f7fafc;
+  display: flex;
+  flex-direction: column;
+}
+
+.board-header {
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 1rem 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  sticky: top;
+  z-index: 100;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 100%;
+  margin: 0 auto;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.board-info {
+  text-align: center;
+  flex: 1;
+  min-width: 200px;
+}
+
+.board-info h1 {
+  margin: 0;
+  color: #2d3748;
+  font-size: 1.8rem;
+}
+
+.sprint-info {
+  color: #718096;
+  margin: 0.25rem 0 0 0;
+  font-size: 0.9rem;
+}
+
+.user-role {
+  color: #667eea;
+  margin: 0.25rem 0 0 0;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.add-member-button {
+  background: #667eea;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.add-member-button:hover {
+  background: #5a67d8;
+}
+
+.toggle-sidebar-button,
+.toggle-activity-button {
+  background: #e2e8f0;
+  color: #4a5568;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: all 0.2s;
+}
+
+.toggle-sidebar-button:hover,
+.toggle-activity-button:hover {
+  background: #cbd5e0;
+}
+
+.error-banner {
+  background: #fed7d7;
+  color: #c53030;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #fc8181;
+}
+
+.error-banner button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #c53030;
+}
+
+.board-container {
+  display: flex;
+  flex: 1;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.board-view {
+  flex: 1;
+  background: #f7fafc;
+  overflow-y: auto;
+  padding: 0;
+  margin: 0;
+  max-width: none;
+  min-width: 0;
+}
+
+.board-columns {
+  gap: 1rem;
+  padding: 2rem;
+  max-width: 100%;
+}
+
+.column-notes {
+  max-height: calc(100vh - 300px);
+}
+
+.note-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+  color: #888;
+  margin-bottom: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.note-author {
+  font-weight: 500;
+  color: #666;
+}
+
+.note-last-modified {
+  color: #999;
+  font-size: 0.75rem;
+}
+
+.viewer-badge {
+  background: #e6f3ff;
+  color: #0066cc;
+  padding: 0.5rem;
+  border-radius: 3px;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  font-weight: 500;
+}
+
+.disabled-message {
+  background: #fef5e7;
+  color: #d69e2e;
+  padding: 1rem;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 0.95rem;
+}
+

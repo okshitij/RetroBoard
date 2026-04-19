@@ -1,0 +1,204 @@
+.activity-feed {
+  background: #f5f5f5;
+  border-left: 1px solid #ddd;
+  padding: 1rem;
+  height: 100%;
+  overflow-y: auto;
+  min-width: 300px;
+}
+
+.activity-feed.error-state {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.activity-feed .feed-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #ddd;
+}
+
+.activity-feed .feed-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.btn-refresh {
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.4rem 0.6rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.btn-refresh:hover {
+  background-color: #e0e0e0;
+  border-color: #999;
+}
+
+.activity-feed .loading {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: #999;
+  font-style: italic;
+}
+
+.activity-feed .empty-state {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: #999;
+  font-size: 0.95rem;
+}
+
+.activity-feed .error-message {
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 0.75rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.activity-feed .feed-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.activity-feed .feed-item {
+  background: white;
+  padding: 0.75rem;
+  border: 1px solid #e0e0e0;
+  border-left: 4px solid #2196f3;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.activity-feed .feed-item:hover {
+  background: #fafafa;
+  border-color: #bdbdbd;
+}
+
+.activity-feed .feed-item.note\:added {
+  border-left-color: #4caf50;
+}
+
+.activity-feed .feed-item.note\:edited {
+  border-left-color: #ff9800;
+}
+
+.activity-feed .feed-item.note\:deleted {
+  border-left-color: #f44336;
+}
+
+.activity-feed .feed-item.note\:voted {
+  border-left-color: #9c27b0;
+}
+
+.activity-feed .feed-item.user\:added {
+  border-left-color: #2196f3;
+}
+
+.activity-feed .feed-item.user\:removed {
+  border-left-color: #f44336;
+}
+
+.activity-feed .feed-item.user\:role_changed {
+  border-left-color: #ff9800;
+}
+
+.activity-feed .feed-item.board\:created {
+  border-left-color: #4caf50;
+}
+
+.activity-feed .feed-item-header {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.activity-feed .user-name {
+  font-weight: 600;
+  color: #333;
+}
+
+.activity-feed .action-label {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.activity-feed .feed-item-details {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.activity-feed .detail-badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  background-color: #e0e0e0;
+  border-radius: 3px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.activity-feed .detail-content {
+  color: #888;
+  font-size: 0.85rem;
+  font-style: italic;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.activity-feed .feed-item-time {
+  font-size: 0.75rem;
+  color: #999;
+}
+
+.activity-feed .btn-load-more {
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 1rem;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.activity-feed .btn-load-more:hover {
+  background-color: #0b7dda;
+}
+
+.activity-feed .btn-small {
+  padding: 0.5rem 1rem;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.activity-feed .btn-small:hover {
+  background-color: #0b7dda;
+}

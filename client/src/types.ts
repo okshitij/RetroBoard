@@ -1,5 +1,6 @@
 export interface User {
   id: string;
+  _id?: string;
   username: string;
   email: string;
 }
@@ -10,12 +11,18 @@ export interface Column {
   order: number;
 }
 
+export interface BoardMember {
+  userId: User | string;
+  role: 'editor' | 'viewer';
+  joinedAt: string;
+}
+
 export interface Board {
   _id: string;
   title: string;
   sprintName: string;
   owner: User;
-  members: User[];
+  members: BoardMember[];
   columns: Column[];
   createdAt: string;
 }
@@ -25,9 +32,22 @@ export interface Note {
   boardId: string;
   columnId: string;
   content: string;
-  author: string;
+  author: User | string;
   votes: string[];
+  lastModifiedBy?: User | string;
+  lastModifiedAt?: string;
   createdAt: string;
+}
+
+export interface ActivityEntry {
+  _id: string;
+  boardId: string;
+  userId: User | string;
+  action: 'note:added' | 'note:edited' | 'note:deleted' | 'note:voted' | 'user:added' | 'user:removed' | 'user:role_changed' | 'board:created';
+  target: 'note' | 'user' | 'board';
+  targetId?: string;
+  details: Record<string, any>;
+  timestamp: string;
 }
 
 export interface AuthContextType {

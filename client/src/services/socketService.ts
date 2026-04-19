@@ -18,7 +18,7 @@ class SocketService {
         }
       : undefined;
 
-    this.socket = io('http://localhost:3000', connectionOptions);
+    this.socket = io('http://localhost:5000', connectionOptions);
 
     this.socket.on('connect', () => {
       console.log('Connected to socket server');
@@ -139,6 +139,12 @@ class SocketService {
   onUserLeft(callback: (data: { socketId: string }) => void) {
     if (this.socket) {
       this.socket.on('user:left', callback);
+    }
+  }
+
+  onError(callback: (error: any) => void) {
+    if (this.socket) {
+      this.socket.on('error', callback);
     }
   }
 

@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-import { IBoard } from '../types';
+import { IBoard, IBoardMember } from '../types';
 
 const ColumnSchema = new Schema({
   id:    { type: String, required: true },
@@ -7,11 +7,17 @@ const ColumnSchema = new Schema({
   order: { type: Number, required: true },
 }, { _id: false });
 
+const BoardMemberSchema = new Schema<IBoardMember>({
+  userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  role: { type: String, enum: ['editor', 'viewer'], default: 'editor', required: true },
+  joinedAt: { type: Date, default: Date.now },
+}, { _id: false });
+
 const BoardSchema = new Schema<IBoard>({
   title:      { type: String, required: true },
   sprintName: { type: String, required: true },
   owner:      { type: Schema.Types.ObjectId, ref: 'User', required: true },
-  members:    [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  members:    [BoardMemberSchema],
   columns: {
     type: [ColumnSchema],
     default: [

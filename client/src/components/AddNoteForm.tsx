@@ -3,14 +3,23 @@ import React, { useState } from 'react';
 interface AddNoteFormProps {
   onAdd: (content: string) => void;
   onCancel: () => void;
+  isViewer?: boolean;
+  isGuest?: boolean;
 }
 
-const AddNoteForm: React.FC<AddNoteFormProps> = ({ onAdd, onCancel }) => {
+const AddNoteForm: React.FC<AddNoteFormProps> = ({
+  onAdd,
+  onCancel,
+  isViewer = false,
+  isGuest = false,
+}) => {
   const [content, setContent] = useState('');
+
+  const isDisabled = isViewer || isGuest;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (content.trim()) {
+    if (content.trim() && !isDisabled) {
       onAdd(content.trim());
       setContent('');
     }
@@ -21,6 +30,16 @@ const AddNoteForm: React.FC<AddNoteFormProps> = ({ onAdd, onCancel }) => {
       onCancel();
     }
   };
+
+  if (isDisabled) {
+    return (
+      <div className="add-note-form disabled">
+        <div className="disabled-message">
+          {isGuest ? 'Guests cannot add notes. View the shared board.' : 'Only editors can add notes to this board.'}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="add-note-form">
