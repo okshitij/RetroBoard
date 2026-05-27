@@ -13,7 +13,7 @@ export class ActivityLoggerService {
     boardId: string | Types.ObjectId,
     userId: string | Types.ObjectId,
     action: string,
-    target: 'note' | 'user' | 'board',
+    target: 'note' | 'user' | 'board' | 'column',
     targetId?: string | Types.ObjectId,
     details: Record<string, any> = {}
   ): Promise<void> {

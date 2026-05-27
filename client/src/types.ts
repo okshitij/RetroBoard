@@ -43,8 +43,8 @@ export interface ActivityEntry {
   _id: string;
   boardId: string;
   userId: User | string;
-  action: 'note:added' | 'note:edited' | 'note:deleted' | 'note:voted' | 'user:added' | 'user:removed' | 'user:role_changed' | 'user:joined' | 'board:created';
-  target: 'note' | 'user' | 'board';
+  action: 'note:added' | 'note:edited' | 'note:deleted' | 'note:voted' | 'user:added' | 'user:removed' | 'user:role_changed' | 'user:joined' | 'board:created' | 'board:updated' | 'board:deleted' | 'column:added' | 'column:renamed' | 'column:deleted';
+  target: 'note' | 'user' | 'board' | 'column';
   targetId?: string;
   details: Record<string, any>;
   timestamp: string;
@@ -79,4 +79,37 @@ export interface NoteVotePayload {
 export interface TimerPayload {
   boardId: string;
   durationSeconds: number;
+}
+
+export interface ColumnAddPayload {
+  boardId: string;
+  title: string;
+}
+
+export interface ColumnRenamePayload {
+  boardId: string;
+  columnId: string;
+  title: string;
+}
+
+export interface ColumnDeletePayload {
+  boardId: string;
+  columnId: string;
+}
+
+export interface NoteMovePayload {
+  boardId: string;
+  noteId: string;
+  targetColumnId: string;
+}
+
+export interface ColumnReorderPayload {
+  boardId: string;
+  columnIds: string[];
+}
+
+export interface BoardUpdatePayload {
+  boardId: string;
+  title?: string;
+  sprintName?: string;
 }

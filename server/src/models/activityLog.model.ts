@@ -6,12 +6,12 @@ const ActivityLogSchema = new Schema<IActivityLog>({
   userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   action: {
     type: String,
-    enum: ['note:added', 'note:edited', 'note:deleted', 'note:voted', 'user:added', 'user:removed', 'user:role_changed', 'user:joined', 'board:created'],
+    enum: ['note:added', 'note:edited', 'note:deleted', 'note:voted', 'note:moved', 'user:added', 'user:removed', 'user:role_changed', 'user:joined', 'board:created', 'board:updated', 'board:deleted', 'column:added', 'column:renamed', 'column:deleted', 'column:reordered'],
     required: true,
   },
   target: {
     type: String,
-    enum: ['note', 'user', 'board'],
+    enum: ['note', 'user', 'board', 'column'],
     required: true,
   },
   targetId: { type: Schema.Types.ObjectId },

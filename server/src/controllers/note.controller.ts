@@ -167,23 +167,29 @@ export const voteNote = async (req: AuthRequest, res: Response): Promise<Respons
     const existingVote = note.votes.some((vote) => vote.toString() === userId);
     const hasVoted = !existingVote;
 
+    // Use atomic operators to prevent race conditions
     if (existingVote) {
-      note.votes = note.votes.filter((vote) => vote.toString() !== userId);
+      await Note.updateOne(
+        { _id: note._id },
+        { $pull: { votes: new Types.ObjectId(userId) }, $set: { lastModifiedBy: new Types.ObjectId(userId), lastModifiedAt: new Date() } }
+      );
     } else {
-      note.votes.push(userId as any);
+      await Note.updateOne(
+        { _id: note._id },
+        { $addToSet: { votes: new Types.ObjectId(userId) }, $set: { lastModifiedBy: new Types.ObjectId(userId), lastModifiedAt: new Date() } }
+      );
     }
 
-    note.lastModifiedBy = new Types.ObjectId(userId);
-    note.lastModifiedAt = new Date();
-    await note.save();
+    // Re-fetch to get accurate state
+    const updatedNote = await Note.findById(note._id);
 
     // Log activity
     await ActivityLoggerService.logActivity(note.boardId, userId, 'note:voted', 'note', note._id, {
       hasVoted,
-      voteCount: note.votes.length,
+      voteCount: updatedNote?.votes.length ?? 0,
     });
 
-    return res.status(200).json({ note });
+    return res.status(200).json({ note: updatedNote });
   } catch (error) {
     return res.status(500).json({ message: 'Failed to vote note', error });
   }

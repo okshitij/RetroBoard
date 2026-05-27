@@ -1,5 +1,5 @@
 import { io, Socket } from 'socket.io-client';
-import type { Note, NoteAddPayload, NoteUpdatePayload, NoteVotePayload, TimerPayload } from '../types';
+import type { Note, Column, NoteAddPayload, NoteUpdatePayload, NoteVotePayload, TimerPayload, ColumnAddPayload, ColumnRenamePayload, ColumnDeletePayload, NoteMovePayload, ColumnReorderPayload } from '../types';
 
 class SocketService {
   private socket: Socket | null = null;
@@ -87,6 +87,44 @@ class SocketService {
     }
   }
 
+  // Column events
+  addColumn(payload: ColumnAddPayload) {
+    if (this.socket) {
+      this.socket.emit('column:add', payload);
+    }
+  }
+
+  renameColumn(payload: ColumnRenamePayload) {
+    if (this.socket) {
+      this.socket.emit('column:rename', payload);
+    }
+  }
+
+  deleteColumn(payload: ColumnDeletePayload) {
+    if (this.socket) {
+      this.socket.emit('column:delete', payload);
+    }
+  }
+
+  moveNote(payload: NoteMovePayload) {
+    if (this.socket) {
+      this.socket.emit('note:move', payload);
+    }
+  }
+
+  reorderColumns(payload: ColumnReorderPayload) {
+    if (this.socket) {
+      this.socket.emit('column:reorder', payload);
+    }
+  }
+
+  // Board events
+  updateBoard(payload: { boardId: string; title?: string; sprintName?: string }) {
+    if (this.socket) {
+      this.socket.emit('board:update', payload);
+    }
+  }
+
   // Event listeners
   onNoteAdded(callback: (note: Note) => void) {
     if (this.socket) {
@@ -139,6 +177,42 @@ class SocketService {
   onUserLeft(callback: (data: { socketId: string }) => void) {
     if (this.socket) {
       this.socket.on('user:left', callback);
+    }
+  }
+
+  onColumnAdded(callback: (data: { column: Column; columns: Column[]; userId: string; username: string }) => void) {
+    if (this.socket) {
+      this.socket.on('column:added', callback);
+    }
+  }
+
+  onColumnRenamed(callback: (data: { columnId: string; title: string; previousTitle: string; columns: Column[]; userId: string; username: string }) => void) {
+    if (this.socket) {
+      this.socket.on('column:renamed', callback);
+    }
+  }
+
+  onColumnDeleted(callback: (data: { columnId: string; title: string; columns: Column[]; notesDeleted: number; userId: string; username: string }) => void) {
+    if (this.socket) {
+      this.socket.on('column:deleted', callback);
+    }
+  }
+
+  onNoteMoved(callback: (data: { noteId: string; targetColumnId: string }) => void) {
+    if (this.socket) {
+      this.socket.on('note:moved', callback);
+    }
+  }
+
+  onColumnsReordered(callback: (data: { columns: Column[] }) => void) {
+    if (this.socket) {
+      this.socket.on('column:reordered', callback);
+    }
+  }
+
+  onBoardUpdated(callback: (data: { board: { title: string; sprintName: string }; userId: string; username: string }) => void) {
+    if (this.socket) {
+      this.socket.on('board:updated', callback);
     }
   }
 

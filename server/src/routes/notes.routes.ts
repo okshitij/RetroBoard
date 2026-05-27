@@ -10,7 +10,7 @@ import {
 
 const router: Router = express.Router();
 
-router.get('/board/:boardId', getNotesByBoard);
+router.get('/board/:boardId', protect, getNotesByBoard);
 router.post('/', protect, createNote);
 router.put('/:noteId', protect, updateNote);
 router.delete('/:noteId', protect, deleteNote);

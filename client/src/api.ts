@@ -1,4 +1,4 @@
-import type { User, Board, Note, BoardMember, ActivityEntry } from './types';
+import type { User, Board, Note, Column, BoardMember, ActivityEntry } from './types';
 
 const API_BASE_URL = 'http://localhost:5000/api';
 
@@ -57,6 +57,24 @@ class ApiClient {
     return this.request<{ user: User }>('/auth/me');
   }
 
+  async getProfile() {
+    return this.request<{ user: User & { createdAt: string } }>('/auth/profile');
+  }
+
+  async updateProfile(data: { username: string }) {
+    return this.request<{ message: string; user: User }>('/auth/profile', {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async changePassword(data: { currentPassword: string; newPassword: string }) {
+    return this.request<{ message: string }>('/auth/password', {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+  }
+
   // Board endpoints
   async createBoard(title: string, sprintName: string) {
     return this.request<{ board: Board }>('/boards', {
@@ -70,11 +88,46 @@ class ApiClient {
   }
 
   async getBoardById(boardId: string) {
-    return this.request<{ board: Board }>(`/boards/${boardId}`);
+    return this.request<{ board: Board; userRole?: string }>(`/boards/${boardId}`);
   }
 
   async getSharedBoard(boardId: string) {
     return this.request<{ board: Board }>(`/boards/shared/${boardId}`);
+  }
+
+  async deleteBoard(boardId: string) {
+    return this.request<{ message: string }>(`/boards/${boardId}`, {
+      method: 'DELETE',
+    });
+  }
+
+  async updateBoard(boardId: string, data: { title?: string; sprintName?: string }) {
+    return this.request<{ board: Board }>(`/boards/${boardId}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async exportBoardPDF(boardId: string) {
+    const url = `${API_BASE_URL}/boards/${boardId}/export/pdf`;
+    const headers: HeadersInit = {};
+    if (this.token) {
+      headers.Authorization = `Bearer ${this.token}`;
+    }
+    const response = await fetch(url, { headers });
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({ message: 'Export failed' }));
+      throw new Error(error.message || `HTTP ${response.status}`);
+    }
+    const blob = await response.blob();
+    const downloadUrl = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = downloadUrl;
+    a.download = `retro-board-${boardId}.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(downloadUrl);
   }
 
   // Board member endpoints
@@ -113,6 +166,21 @@ class ApiClient {
     return this.request<{ activities: ActivityEntry[]; total: number; limit: number; offset: number }>(
       `/boards/${boardId}/notes/${noteId}/activity?limit=${limit}&offset=${offset}`
     );
+  }
+
+  // Column endpoints
+  async addColumn(boardId: string, title: string) {
+    return this.request<{ column: Column; columns: Column[] }>(`/boards/${boardId}/columns`, {
+      method: 'POST',
+      body: JSON.stringify({ title }),
+    });
+  }
+
+  async renameColumn(boardId: string, columnId: string, title: string) {
+    return this.request<{ column: Column; columns: Column[] }>(`/boards/${boardId}/columns/${columnId}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ title }),
+    });
   }
 
   // Note endpoints

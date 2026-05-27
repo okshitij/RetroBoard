@@ -61,6 +61,9 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({ boardId }) => {
       'user:removed': 'removed a member',
       'user:role_changed': 'changed member role',
       'board:created': 'created the board',
+      'column:added': 'added a column',
+      'column:renamed': 'renamed a column',
+      'column:deleted': 'deleted a column',
     };
     return labels[action] || action;
   };
@@ -119,6 +122,24 @@ export const ActivityFeed: React.FC<ActivityFeedProps> = ({ boardId }) => {
                     {activity.details.hasVoted !== undefined && (
                       <span className="detail-badge">
                         {activity.details.hasVoted ? 'Voted' : 'Unvoted'}
+                      </span>
+                    )}
+                    {activity.details.title && activity.action === 'column:added' && (
+                      <span className="detail-content">"{activity.details.title}"</span>
+                    )}
+                    {activity.details.previousTitle && activity.action === 'column:renamed' && (
+                      <span className="detail-content">
+                        "{activity.details.previousTitle}" → "{activity.details.newTitle}"
+                      </span>
+                    )}
+                    {activity.details.title && activity.action === 'column:deleted' && (
+                      <span className="detail-content">
+                        "{activity.details.title}"
+                        {activity.details.notesDeleted > 0 && (
+                          <span className="detail-badge" style={{ backgroundColor: '#e53e3e', marginLeft: '0.25rem' }}>
+                            {activity.details.notesDeleted} note{activity.details.notesDeleted > 1 ? 's' : ''} removed
+                          </span>
+                        )}
                       </span>
                     )}
                   </div>
