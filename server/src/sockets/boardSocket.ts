@@ -18,9 +18,30 @@ import {
 } from '../types';
 import AuthorizationService from '../services/authorizationService';
 import ActivityLoggerService from '../services/activityLogger';
+import { redisClient } from '../config/redis';
 
 const activeTimers = new Map<string, NodeJS.Timeout>();
-const userPresence = new Map<string, Map<string, string>>(); // boardId -> socketId -> userId
+
+const ensureTimerInterval = (io: Server, boardId: string, expiryTime: number) => {
+  const existingInterval = activeTimers.get(boardId);
+  if (existingInterval) {
+    clearInterval(existingInterval);
+  }
+
+  const interval = setInterval(async () => {
+    const remaining = Math.max(0, Math.ceil((expiryTime - Date.now()) / 1000));
+    io.to(boardId).emit('timer:tick', { remaining });
+
+    if (remaining <= 0) {
+      clearInterval(interval);
+      activeTimers.delete(boardId);
+      await redisClient.del(`timer:board:${boardId}`);
+      io.to(boardId).emit('timer:ended');
+    }
+  }, 1000);
+
+  activeTimers.set(boardId, interval);
+};
 
 /**
  * Extract and verify JWT from socket auth
@@ -55,11 +76,9 @@ export const registerBoardSocket = (io: Server, socket: Socket): void => {
         return;
       }
 
-      // Track presence
-      if (!userPresence.has(boardId)) {
-        userPresence.set(boardId, new Map());
-      }
-      userPresence.get(boardId)!.set(socket.id, user.userId);
+      // Track presence in Redis
+      await redisClient.hSet(`presence:board:${boardId}`, socket.id, user.userId);
+      await redisClient.expire(`presence:board:${boardId}`, 86400); // 24h TTL
 
       socket.join(boardId);
 
@@ -75,6 +94,19 @@ export const registerBoardSocket = (io: Server, socket: Socket): void => {
       await ActivityLoggerService.logActivity(boardId, user.userId, 'user:joined', 'user', undefined, {
         event: 'joined_board',
       });
+
+      // Check for active timer in Redis and sync joining client
+      const expiryStr = await redisClient.get(`timer:board:${boardId}`);
+      if (expiryStr) {
+        const expiryTime = parseInt(expiryStr, 10);
+        const remaining = Math.max(0, Math.ceil((expiryTime - Date.now()) / 1000));
+        if (remaining > 0) {
+          socket.emit('timer:tick', { remaining });
+          if (!activeTimers.has(boardId)) {
+            ensureTimerInterval(io, boardId, expiryTime);
+          }
+        }
+      }
     } catch (error) {
       console.error('Error joining board:', error);
       socket.emit('error', { message: 'Failed to join board' });
@@ -85,14 +117,8 @@ export const registerBoardSocket = (io: Server, socket: Socket): void => {
     try {
       const user = getUserFromSocket(socket);
 
-      // Clean up presence
-      const boardPresence = userPresence.get(boardId);
-      if (boardPresence) {
-        boardPresence.delete(socket.id);
-        if (boardPresence.size === 0) {
-          userPresence.delete(boardId);
-        }
-      }
+      // Clean up presence in Redis
+      await redisClient.hDel(`presence:board:${boardId}`, socket.id);
 
       socket.leave(boardId);
 
@@ -704,23 +730,16 @@ export const registerBoardSocket = (io: Server, socket: Socket): void => {
         return;
       }
 
-      // Clear any existing timer for this board
-      const existingInterval = activeTimers.get(payload.boardId);
-      if (existingInterval) {
-        clearInterval(existingInterval);
-      }
+      const durationSeconds = payload.durationSeconds;
+      const expiryTime = Date.now() + durationSeconds * 1000;
 
-      let remaining = payload.durationSeconds;
-      const interval = setInterval(() => {
-        remaining--;
-        io.to(payload.boardId).emit('timer:tick', { remaining });
-        if (remaining <= 0) {
-          clearInterval(interval);
-          activeTimers.delete(payload.boardId);
-          io.to(payload.boardId).emit('timer:ended');
-        }
-      }, 1000);
-      activeTimers.set(payload.boardId, interval);
+      // Save timer in Redis
+      await redisClient.set(`timer:board:${payload.boardId}`, expiryTime.toString(), {
+        EX: durationSeconds,
+      });
+
+      // Clear any existing timer local interval and start the new one
+      ensureTimerInterval(io, payload.boardId, expiryTime);
     } catch (error) {
       console.error('Error starting timer:', error);
     }
@@ -746,33 +765,29 @@ export const registerBoardSocket = (io: Server, socket: Socket): void => {
         clearInterval(interval);
         activeTimers.delete(payload.boardId);
       }
+      
+      // Delete timer in Redis
+      await redisClient.del(`timer:board:${payload.boardId}`);
       io.to(payload.boardId).emit('timer:stopped');
     } catch (error) {
       console.error('Error stopping timer:', error);
     }
   });
 
-  socket.on('disconnect', () => {
+  socket.on('disconnecting', async () => {
     try {
-      socket.rooms.forEach(room => {
+      for (const room of socket.rooms) {
         if (room !== socket.id) {
-          // Clean up presence — read userId BEFORE deleting
-          const boardPresence = userPresence.get(room);
-          let userId: string | undefined;
-          if (boardPresence) {
-            userId = boardPresence.get(socket.id);
-            boardPresence.delete(socket.id);
-            if (boardPresence.size === 0) {
-              userPresence.delete(room);
-            }
-          }
+          // Clean up presence — read userId from Redis BEFORE deleting
+          const userId = await redisClient.hGet(`presence:board:${room}`, socket.id);
+          await redisClient.hDel(`presence:board:${room}`, socket.id);
 
           socket.to(room).emit('user:left', {
             socketId: socket.id,
             userId: userId || undefined,
           });
         }
-      });
+      }
     } catch (error) {
       console.error('Error on disconnect:', error);
     }

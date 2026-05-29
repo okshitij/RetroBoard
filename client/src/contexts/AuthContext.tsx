@@ -24,7 +24,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
+    const storedToken = sessionStorage.getItem('token');
     if (storedToken) {
       setToken(storedToken);
       apiClient.setToken(storedToken);
@@ -55,7 +55,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setUser(response.user);
     setToken(response.token);
     apiClient.setToken(response.token);
-    localStorage.setItem('token', response.token);
+    sessionStorage.setItem('token', response.token);
     socketService.connect(response.token);
   };
 
@@ -64,7 +64,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setUser(response.user);
     setToken(response.token);
     apiClient.setToken(response.token);
-    localStorage.setItem('token', response.token);
+    sessionStorage.setItem('token', response.token);
     socketService.connect(response.token);
   };
 
@@ -72,7 +72,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setUser(null);
     setToken(null);
     apiClient.setToken('');
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
     socketService.disconnect();
   };
 

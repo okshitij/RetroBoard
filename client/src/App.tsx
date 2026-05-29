@@ -9,6 +9,7 @@ import BoardPage from './pages/BoardPage';
 import SharedBoardPage from './pages/SharedBoardPage';
 import CreateBoardPage from './pages/CreateBoardPage';
 import ProfilePage from './pages/ProfilePage';
+import LandingPage from './pages/LandingPage';
 import './App.css';
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -97,7 +98,7 @@ function App() {
                 }
               />
               <Route path="/shared/:boardId" element={<SharedBoardPage />} />
-              <Route path="/" element={<Navigate to="/dashboard" />} />
+              <Route path="/" element={<LandingPage />} />
             </Routes>
           </div>
           <ToastContainer />

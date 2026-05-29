@@ -18,7 +18,8 @@ class SocketService {
         }
       : undefined;
 
-    this.socket = io('http://localhost:5000', connectionOptions);
+    const socketUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+    this.socket = io(socketUrl, connectionOptions);
 
     this.socket.on('connect', () => {
       console.log('Connected to socket server');

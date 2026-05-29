@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
 import { useToast } from '../contexts/ToastContext';
 import { apiClient } from '../api';
 import '../styles/ProfilePage.css';
 
 const ProfilePage: React.FC = () => {
-  const { user } = useAuth();
   const { addToast } = useToast();
   const navigate = useNavigate();
 

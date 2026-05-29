@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useToast } from '../contexts/ToastContext';
 import { apiClient } from '../api';
@@ -21,7 +21,6 @@ const DashboardPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabOption>('all');
   const { user, logout } = useAuth();
   const { addToast } = useToast();
-  const navigate = useNavigate();
 
   useEffect(() => {
     loadBoards();
