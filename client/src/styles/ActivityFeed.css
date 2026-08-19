@@ -1,10 +1,15 @@
+/* ActivityFeed.css - Dark Glass Theme */
+
 .activity-feed {
-  background: #f5f5f5;
-  border-left: 1px solid #ddd;
-  padding: 1rem;
+  background: rgba(12, 13, 18, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 1.25rem;
   height: 100%;
   overflow-y: auto;
   min-width: 300px;
+  box-sizing: border-box;
 }
 
 .activity-feed.error-state {
@@ -19,53 +24,57 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid #ddd;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .activity-feed .feed-header h3 {
   margin: 0;
   font-size: 1.1rem;
-  color: #333;
+  color: #ffffff;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 700;
 }
 
 .btn-refresh {
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 0.4rem 0.6rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #d4d4d8;
+  border-radius: 6px;
+  padding: 0.35rem 0.65rem;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 0.9rem;
   transition: all 0.2s ease;
 }
 
 .btn-refresh:hover {
-  background-color: #e0e0e0;
-  border-color: #999;
+  background-color: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
 }
 
 .activity-feed .loading {
   text-align: center;
   padding: 2rem 1rem;
-  color: #999;
+  color: #71717a;
   font-style: italic;
 }
 
 .activity-feed .empty-state {
   text-align: center;
   padding: 2rem 1rem;
-  color: #999;
-  font-size: 0.95rem;
+  color: #71717a;
+  font-size: 0.9rem;
 }
 
 .activity-feed .error-message {
-  background-color: #ffebee;
-  color: #c62828;
+  background-color: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
   padding: 0.75rem;
-  border-radius: 4px;
+  border-radius: 8px;
   margin-bottom: 1rem;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 .activity-feed .feed-items {
@@ -75,90 +84,91 @@
 }
 
 .activity-feed .feed-item {
-  background: white;
-  padding: 0.75rem;
-  border: 1px solid #e0e0e0;
-  border-left: 4px solid #2196f3;
-  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 4px solid #3366cc;
+  border-radius: 10px;
   transition: all 0.2s ease;
 }
 
 .activity-feed .feed-item:hover {
-  background: #fafafa;
-  border-color: #bdbdbd;
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.15);
 }
 
 .activity-feed .feed-item.note\:added {
-  border-left-color: #4caf50;
+  border-left-color: #22c55e;
 }
 
 .activity-feed .feed-item.note\:edited {
-  border-left-color: #ff9800;
+  border-left-color: #f59e0b;
 }
 
 .activity-feed .feed-item.note\:deleted {
-  border-left-color: #f44336;
+  border-left-color: #ef4444;
 }
 
 .activity-feed .feed-item.note\:voted {
-  border-left-color: #9c27b0;
+  border-left-color: #a855f7;
 }
 
 .activity-feed .feed-item.user\:added {
-  border-left-color: #2196f3;
+  border-left-color: #3b82f6;
 }
 
 .activity-feed .feed-item.user\:removed {
-  border-left-color: #f44336;
+  border-left-color: #ef4444;
 }
 
 .activity-feed .feed-item.user\:role_changed {
-  border-left-color: #ff9800;
+  border-left-color: #f59e0b;
 }
 
 .activity-feed .feed-item.board\:created {
-  border-left-color: #4caf50;
+  border-left-color: #22c55e;
 }
 
 .activity-feed .feed-item-header {
   display: flex;
   gap: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
   flex-wrap: wrap;
   align-items: center;
 }
 
 .activity-feed .user-name {
   font-weight: 600;
-  color: #333;
+  color: #ffffff;
+  font-size: 0.85rem;
 }
 
 .activity-feed .action-label {
-  color: #666;
-  font-size: 0.9rem;
+  color: #a1a1aa;
+  font-size: 0.825rem;
 }
 
 .activity-feed .feed-item-details {
   display: flex;
   gap: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
   flex-wrap: wrap;
   align-items: center;
 }
 
 .activity-feed .detail-badge {
   display: inline-block;
-  padding: 0.25rem 0.5rem;
-  background-color: #e0e0e0;
-  border-radius: 3px;
+  padding: 0.15rem 0.5rem;
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
   font-size: 0.75rem;
   font-weight: 600;
-  color: #333;
+  color: #d4d4d8;
 }
 
 .activity-feed .detail-content {
-  color: #888;
-  font-size: 0.85rem;
+  color: #a1a1aa;
+  font-size: 0.8rem;
   font-style: italic;
   max-width: 200px;
   overflow: hidden;
@@ -168,37 +178,39 @@
 
 .activity-feed .feed-item-time {
   font-size: 0.75rem;
-  color: #999;
+  color: #71717a;
 }
 
 .activity-feed .btn-load-more {
   width: 100%;
   padding: 0.75rem;
   margin-top: 1rem;
-  background-color: #2196f3;
+  background: linear-gradient(135deg, #3366cc 0%, #254db3 100%);
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 600;
   transition: all 0.2s ease;
 }
 
 .activity-feed .btn-load-more:hover {
-  background-color: #0b7dda;
+  box-shadow: 0 4px 12px rgba(51, 102, 204, 0.4);
 }
 
 .activity-feed .btn-small {
   padding: 0.5rem 1rem;
-  background-color: #2196f3;
+  background: linear-gradient(135deg, #3366cc 0%, #254db3 100%);
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 600;
   transition: all 0.2s ease;
 }
 
 .activity-feed .btn-small:hover {
-  background-color: #0b7dda;
+  box-shadow: 0 4px 12px rgba(51, 102, 204, 0.4);
 }

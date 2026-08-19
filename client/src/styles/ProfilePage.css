@@ -1,13 +1,20 @@
+/* ProfilePage.css - Dark Glassmorphic Theme */
+
 .profile-page {
   min-height: 100vh;
-  background: #f7fafc;
+  background: #000000;
+  color: #ffffff;
 }
 
 .profile-header {
-  background: white;
-  border-bottom: 1px solid #e2e8f0;
+  background: rgba(9, 9, 11, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   padding: 1rem 2rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 50;
 }
 
 .profile-header .header-content {
@@ -21,7 +28,8 @@
 .profile-header h1 {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #1e293b;
+  color: #ffffff;
+  font-family: 'Manrope', sans-serif;
   margin: 0;
 }
 
@@ -35,25 +43,28 @@
 }
 
 .profile-card {
-  background: white;
-  border-radius: 12px;
+  background: rgba(24, 24, 27, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 16px;
   padding: 2rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e2e8f0;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .profile-card h2 {
   margin: 0 0 1.5rem;
-  font-size: 1.15rem;
+  font-size: 1.25rem;
   font-weight: 700;
-  color: #1e293b;
+  color: #ffffff;
+  font-family: 'Manrope', sans-serif;
 }
 
 /* Avatar */
 .profile-avatar {
   width: 72px;
   height: 72px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #3366cc, #254db3);
   color: white;
   border-radius: 50%;
   display: flex;
@@ -61,7 +72,9 @@
   justify-content: center;
   font-size: 2rem;
   font-weight: 700;
-  margin-bottom: 1.5rem;
+  font-family: 'Manrope', sans-serif;
+  margin-bottom: 1.75rem;
+  box-shadow: 0 4px 20px rgba(51, 102, 204, 0.35);
 }
 
 /* Fields */
@@ -78,15 +91,15 @@
 }
 
 .profile-field label {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 600;
-  color: #94a3b8;
+  color: #a1a1aa;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.04em;
 }
 
 .field-value {
-  color: #1e293b;
+  color: #ffffff;
   font-size: 1rem;
   font-weight: 500;
 }
@@ -98,20 +111,20 @@
 }
 
 .edit-field-btn {
-  background: none;
-  border: 1px solid #e2e8f0;
-  color: #667eea;
+  background: rgba(51, 102, 204, 0.15);
+  border: 1px solid rgba(51, 102, 204, 0.3);
+  color: #60a5fa;
   padding: 0.25rem 0.75rem;
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 0.8rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all 0.2s;
 }
 
 .edit-field-btn:hover {
-  background: #eef2ff;
-  border-color: #667eea;
+  background: #3366cc;
+  color: white;
 }
 
 /* Inline Edit */
@@ -127,55 +140,58 @@
 }
 
 .save-btn {
-  background: #667eea;
+  background: linear-gradient(135deg, #3366cc, #254db3);
   color: white;
   border: none;
   padding: 0.4rem 1rem;
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 0.85rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.15s;
+  transition: all 0.2s;
 }
 
 .save-btn:hover:not(:disabled) {
-  background: #5a67d8;
+  box-shadow: 0 4px 12px rgba(51, 102, 204, 0.4);
 }
 
 .save-btn:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
 }
 
 .cancel-btn {
-  background: none;
-  border: 1px solid #e2e8f0;
-  color: #475569;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #a1a1aa;
   padding: 0.4rem 1rem;
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 0.85rem;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all 0.2s;
 }
 
 .cancel-btn:hover {
-  background: #f8fafc;
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
 }
 
 /* Form */
 .profile-input {
   width: 100%;
-  padding: 0.625rem 0.875rem;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
+  padding: 0.65rem 0.875rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
   font-size: 0.95rem;
-  color: #1e293b;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  color: #ffffff;
+  box-sizing: border-box;
+  transition: all 0.2s;
 }
 
 .profile-input:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+  border-color: #3366cc;
+  box-shadow: 0 0 0 3px rgba(51, 102, 204, 0.2);
 }
 
 .password-form {
@@ -193,7 +209,7 @@
 .form-group label {
   font-size: 0.85rem;
   font-weight: 500;
-  color: #475569;
+  color: #a1a1aa;
 }
 
 /* Password Strength */
@@ -213,11 +229,11 @@
 }
 
 .strength-bar.weak {
-  background: linear-gradient(90deg, #ef4444 0%, #ef4444 33%, #e2e8f0 33%);
+  background: linear-gradient(90deg, #ef4444 0%, #ef4444 33%, rgba(255, 255, 255, 0.1) 33%);
 }
 
 .strength-bar.medium {
-  background: linear-gradient(90deg, #f59e0b 0%, #f59e0b 66%, #e2e8f0 66%);
+  background: linear-gradient(90deg, #f59e0b 0%, #f59e0b 66%, rgba(255, 255, 255, 0.1) 66%);
 }
 
 .strength-bar.strong {
@@ -227,31 +243,32 @@
 .strength-label {
   font-size: 0.75rem;
   font-weight: 500;
-  color: #94a3b8;
+  color: #a1a1aa;
 }
 
 .field-error {
-  color: #ef4444;
+  color: #f87171;
   font-size: 0.8rem;
   margin-top: 0.25rem;
 }
 
 .change-password-btn {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #3366cc, #254db3);
   color: white;
   border: none;
   padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  font-size: 0.95rem;
+  border-radius: 9999px;
+  font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
   align-self: flex-start;
+  box-shadow: 0 4px 15px rgba(51, 102, 204, 0.3);
 }
 
 .change-password-btn:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.35);
+  box-shadow: 0 6px 20px rgba(51, 102, 204, 0.45);
 }
 
 .change-password-btn:disabled {
@@ -265,13 +282,7 @@
     padding: 0 1rem;
     margin: 1.5rem auto;
   }
-
   .profile-card {
     padding: 1.5rem;
-  }
-
-  .profile-header .header-content {
-    flex-wrap: wrap;
-    gap: 0.5rem;
   }
 }

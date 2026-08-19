@@ -119,9 +119,12 @@ const DashboardPage: React.FC = () => {
     <div className="dashboard">
       <header className="dashboard-header">
         <div className="header-content">
-          <h1>RetroBoard</h1>
+          <Link to="/" className="flex items-center gap-2 text-white hover:opacity-90 transition-opacity text-decoration-none">
+            <div className="w-5 h-5 bg-[#3366cc] rounded-sm rotate-45"></div>
+            <span className="text-xl font-bold font-manrope tracking-tight">RetroBoard</span>
+          </Link>
           <div className="user-info">
-            <span>Welcome, {user?.username}!</span>
+            <span>Welcome, <strong className="text-white">{user?.username}</strong></span>
             <Link to="/profile" className="profile-link" title="Profile">
               👤
             </Link>
@@ -134,6 +137,7 @@ const DashboardPage: React.FC = () => {
 
       <main className="dashboard-main">
         <div className="dashboard-actions">
+          <h2 className="text-2xl font-bold font-manrope text-white m-0">My Workspaces</h2>
           <Link to="/boards/create" className="create-board-button">
             + Create New Board
           </Link>

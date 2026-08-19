@@ -220,8 +220,8 @@ const LandingPage: React.FC = () => {
         <section className="py-32 max-w-7xl mx-auto px-8 p-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center p-10">
             <div className="lg:col-span-6">
-              <div className="rounded-3xl overflow-hidden editorial-shadow bg-surface-container-low border border-white/5">
-                <img alt="Illustration of a stressed CTO" className="w-full h-auto object-cover opacity-80 brightness-90 contrast-[1.1]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZjNvUgqIs2j52b4JCrzG4ooAJIRa2QHlmG3U_VhsMLkEDZFxd9J9JS8NRghhxuGvEsiuuc9-9DrsAZkKRKjuaMQKFHzkh96f1rcb0awdfOAB61SblrqzlI8JkO0QvqlvaiPFbYn7blILVQRL20DPWEQDxT_KtoqRKXZ7yLKLkWcaWqxOf3cj6gyr_W5TYcVcG87cUkBUaMy0BEnkF8xZkD2UfTWjf16RY5a-mUAr2MjkhOJbdyt6Gyqc82lxgwZJoErek9zLptQ" />
+              <div className="overflow-hidden bg-transparent">
+                <img alt="Illustration of a stressed CTO" className="w-full h-auto object-cover opacity-90 mix-blend-screen" src="/stressed_cto.jpg" />
               </div>
             </div>
             <div className="lg:col-span-6 -mt-8">
@@ -524,7 +524,7 @@ const LandingPage: React.FC = () => {
               RetroBoard
             </div>
             <p className="font-body text-xs text-on-surface-variant leading-relaxed">
-              © {new Date().getFullYear()} Alexandria Systems. <br />All rights reserved. <br />Archival Digital Quality.
+              © {new Date().getFullYear()} RetroBoard. <br />All rights reserved. <br /> Made with ❤️ by <a href="https://github.com/okshitij" target="_blank" rel="noopener noreferrer">Kshitij Kalrao</a>
             </p>
           </div>
           <div>

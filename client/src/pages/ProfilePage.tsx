@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useToast } from '../contexts/ToastContext';
 import { apiClient } from '../api';
 import '../styles/ProfilePage.css';
@@ -97,11 +97,14 @@ const ProfilePage: React.FC = () => {
     <div className="profile-page">
       <header className="profile-header">
         <div className="header-content">
+          <Link to="/" className="flex items-center gap-2 text-white hover:opacity-90 transition-opacity text-decoration-none">
+            <div className="w-5 h-5 bg-[#3366cc] rounded-sm rotate-45"></div>
+            <span className="text-xl font-bold font-manrope tracking-tight">RetroBoard</span>
+          </Link>
+          <h1>My Profile</h1>
           <button onClick={() => navigate('/dashboard')} className="back-button">
             ← Back to Dashboard
           </button>
-          <h1>My Profile</h1>
-          <div />
         </div>
       </header>
 
